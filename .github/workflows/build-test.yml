@@ -1,0 +1,33 @@
+name: Build and Test
+
+on:
+  push:
+    branches: 
+      - "**"
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }} # runs a test on Ubuntu, Windows and macOS
+
+    strategy:
+      matrix:
+        deno: ["v1.x", "nightly"]
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denolib/setup-deno@c7d7968ad4a59c159a777f79adddad6872ee8d96
+        with:
+          deno-version: ${{ matrix.deno }} # tests across multiple Deno versions
+
+        # This works for making sure mod.ts and its internal deps are compiling, for some reason lol
+      - name: Cache Dependencies
+        run: deno cache src/mod.ts
+
+      - name: Run Tests
+        run: deno test tests/ -A
