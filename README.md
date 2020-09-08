@@ -2,6 +2,14 @@
 
 Dixture helps you create random data for your tests.
 
+## 🚥 Current Status
+
+**Master status** ![Build and Test](https://github.com/rodolphocastro/dixture/workflows/Build%20and%20Test/badge.svg?branch=master)
+
+**Project status**: *Under development*
+
+**Latest stable version**: *There are no public releases yet*
+
 ## 🏆 Acknowledgements
 
 Dixture is based on the great [AutoFixture](https://github.com/AutoFixture/AutoFixture) library that exists on the `.NET` environment.
