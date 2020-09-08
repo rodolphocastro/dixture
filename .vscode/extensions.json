@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "denoland.vscode-deno",
+        "usernamehw.errorlens",
+        "CoenraadS.bracket-pair-colorizer-2",
+        "aaron-bond.better-comments",
+        "EditorConfig.EditorConfig"
+    ]
+}
