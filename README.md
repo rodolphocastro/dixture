@@ -24,7 +24,22 @@ Thus I began working on this project.
 
 ## 🛣 Roadmap
 
-> W.I.P.
+### v0.1.0
+
++ [X] Create random values for primitive types (*aka numbers, strings and booleans*)
++ [X] Create and assign random values for primitive types (*ditto for the aka above*)
++ [ ] Validate generation parameters
+
+### v0.2.0
+
++ [ ] Create and assign random values for all primitive fields of an object (*aka numbers, strings and booleans*)
++ [ ] Create a Factory API (*aka users can ask a single Factory for an object T and they'll have it*)
+
+### Someday
+
++ [ ] Allow recursive generation (*aka we can handle nested objects*)
++ [ ] Allow customization of the generation strategy (*aka consumers can tweak how we generate objects*)
++ [ ] Create a Builder/Fluent API (*aka allow consumers to chain customization calls*)
 
 ## ➕ Contributing to this Project
 

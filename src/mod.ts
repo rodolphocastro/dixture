@@ -1,1 +1,1 @@
-export { createFieldValue } from "./_simpleGenerator.ts";
+export { createFieldValue, assignField } from "./_simpleGenerator.ts";

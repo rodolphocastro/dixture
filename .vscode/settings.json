@@ -1,6 +1,10 @@
 {
     "deno.enable": true,
     "[typescript]": {
-        "editor.defaultFormatter": "denoland.vscode-deno"
+        "editor.defaultFormatter": "denoland.vscode-deno",
+        "editor.rulers": [
+            80,
+            120
+        ]
     }
 }
