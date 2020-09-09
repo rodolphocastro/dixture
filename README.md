@@ -1,6 +1,6 @@
 # Dixture
 
-Dixture helps you create random data for your tests.
+Dixture helps you create random data for your tests, with zero external dependencies!
 
 ## 🚥 Current Status
 
@@ -12,7 +12,7 @@ Dixture helps you create random data for your tests.
 
 ## 🏆 Acknowledgements
 
-Dixture is based on the great [AutoFixture](https://github.com/AutoFixture/AutoFixture) library that exists on the `.NET` environment.
+Dixture is *loosely* based on the great [AutoFixture](https://github.com/AutoFixture/AutoFixture) library that exists on the `.NET` environment.
 
 I've used this library for so long for my Unit and Integration tests that I needed to, somehow, get some of its functionality when working on my `Deno`'s tests.
 
@@ -20,7 +20,45 @@ Thus I began working on this project.
 
 ## ⚡ Getting Started
 
-> W.I.P.
+Simply import us by `deno.land/x/` and use your favorite flavor of test data generation!
+
+*As of v0.1.0* you can pick from two functions:
+
+1. The first function looks at a field name and generates a random value for it
+2. The second function generates and assigns a random value for a specific field
+
+```typescript
+import {
+  assignField,
+  createFieldValue,
+} from "https://deno.land/x/dixture@v0.1.0/mod.ts";
+
+interface Person {
+  name: string;
+  age: number;
+  isAlive: boolean;
+}
+
+const subject: Person = {
+  age: 1,
+  isAlive: false,
+  name: "A Person",
+};
+
+const result = createFieldValue<Person>(subject, "name");
+console.log(result);
+
+assignField(subject, "age", {
+  min: 1,
+  max: 100,
+});
+console.log(subject.age);
+
+assignField(subject, "isAlive");
+console.log(subject.isAlive);
+```
+
+You can check out all our samples at the [samples directory](./samples/)!
 
 ## 🛣 Roadmap
 
@@ -51,7 +89,7 @@ Simply follow the standards and ensure all the tests are ✅, then create a pull
 
 ### 🔨 Building
 
-> W.I.P.
+Well, you don't *really* need to build this but you could use `deno cache` to cache the dependencies and ensure everything is okay or `deno bundle` to create a single file with all the required dependencies.
 
 ### 🤖 Testing
 
