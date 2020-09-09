@@ -5,4 +5,5 @@ export {
   assertEquals,
   assertThrows,
   assertStringContains,
+  fail
 } from "https://deno.land/std/testing/asserts.ts";
