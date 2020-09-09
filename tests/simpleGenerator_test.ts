@@ -4,6 +4,7 @@ import {
   assert,
   assertNotEquals,
   assertThrows,
+  fail,
 } from "./deps.ts";
 import { assignField, createFieldValue } from "../src/_simpleGenerator.ts";
 
@@ -101,7 +102,7 @@ Rhum.testPlan("Simple Generator", () => {
     );
   });
 
-  Rhum.testSuite("applyField", () => {
+  Rhum.testSuite("assignField", () => {
     Rhum.testCase("1. Should replace a string with a new value", () => {
       const { aStringField } = subject;
       assignField(subject, "aStringField");
@@ -157,6 +158,60 @@ Rhum.testPlan("Simple Generator", () => {
         assertThrows(() => {
           assignField(improvedSubject, "myFn");
         });
+      },
+    );
+  });
+
+  Rhum.testSuite("validateParameters", () => {
+    Rhum.testCase(
+      "1. Should execute createField when parameters are valid",
+      () => {
+        try {
+          createFieldValue(subject, "aStringField", {
+            max: 20000,
+            min: 2,
+          });
+        } catch {
+          fail("It should accept valid parameters");
+        }
+      },
+    );
+
+    Rhum.testCase(
+      "2. Should execute assignField when parameters are valid",
+      () => {
+        try {
+          assignField(subject, "aStringField", {
+            max: 20000,
+            min: 2,
+          });
+        } catch {
+          fail("It should accept valid parameters");
+        }
+      },
+    );
+
+    Rhum.testCase(
+      "3. Should throw createField when parameters are invalid",
+      () => {
+        assertThrows(() =>
+          createFieldValue(subject, "aStringField", {
+            min: 100,
+            max: 20,
+          })
+        );
+      },
+    );
+
+    Rhum.testCase(
+      "4. Should throw assignField when parameters are invalid",
+      () => {
+        assertThrows(() =>
+          assignField(subject, "aStringField", {
+            min: 0,
+            max: 20,
+          })
+        );
       },
     );
   });

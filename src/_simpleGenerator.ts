@@ -8,6 +8,16 @@ const defaultParameters: GeneratorParameters = {
   max: 1000,
 };
 
+/**
+ * Returns if a Generator Parameter is valid.
+ * @param param0 Parameters that should be validated
+ */
+function validateGeneratorParameters(
+  { min, max }: GeneratorParameters,
+): boolean {
+  return min > 0 && min <= max;
+}
+
 function generateRandomNumber(
   { max, min }: GeneratorParameters = defaultParameters,
 ): number {
@@ -25,6 +35,9 @@ export function createFieldValue<T>(
   field: keyof T,
   params: GeneratorParameters = defaultParameters,
 ): string | boolean | number | bigint {
+  if (!validateGeneratorParameters(params)) {
+    throw new Error(`The parameters ${params} aren't valid`);
+  }
   const suffix = generateRandomNumber(params);
   const typeOfField = typeof subject[field];
   switch (typeOfField) {
