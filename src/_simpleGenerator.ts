@@ -1,22 +1,8 @@
-interface GeneratorParameters {
-  max: number;
-  min: number;
-}
-
-const defaultParameters: GeneratorParameters = {
-  min: 1,
-  max: 1000,
-};
-
-/**
- * Returns if a Generator Parameter is valid.
- * @param param0 Parameters that should be validated
- */
-function validateGeneratorParameters(
-  { min, max }: GeneratorParameters,
-): boolean {
-  return min > 0 && min <= max;
-}
+import {
+  GeneratorParameters,
+  defaultParameters,
+  validateGeneratorParameters,
+} from "./_parameters.ts";
 
 function generateRandomNumber(
   { max, min }: GeneratorParameters = defaultParameters,
