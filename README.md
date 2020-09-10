@@ -70,7 +70,7 @@ You can check out all our samples at the [samples directory](./samples/)!
 
 ### 🏁 v0.2.0
 
-+ [ ] Create and assign random values for all primitive fields of an object (*aka numbers, strings and booleans*)
++ [X] Create and assign random values for all primitive fields of an object (*aka numbers, strings and booleans*)
 + [ ] Create a Factory API (*aka users can ask a single Factory for an object T and they'll have it*)
 
 ### 💭 Someday
