@@ -21,23 +21,73 @@ export function createFieldValue<T>(
   field: keyof T,
   params: GeneratorParameters = defaultParameters,
 ): string | boolean | number | bigint {
-  if (!validateGeneratorParameters(params)) {
-    throw new Error(`The parameters ${params} aren't valid`);
-  }
-  const suffix = generateRandomNumber(params);
   const typeOfField = typeof subject[field];
   switch (typeOfField) {
     case "string":
-      return `${field}-${suffix}`;
+      return createString(field.toString(), params);
     case "boolean":
-      return Math.random() >= .5;
+      return createBoolean();
     case "number":
-      return suffix;
+      return createNumber(false, params);
     case "bigint":
-      return BigInt(Math.floor(suffix));
+      return createBigInt(params);
     default:
       throw new Error(`${typeOfField} is not supported`);
   }
+}
+
+/**
+ * Creates a random string.
+ * @param prefix a prefix be used for string generation
+ * @param params parameters for random number generation
+ */
+export function createString(
+  prefix: string = "",
+  params: GeneratorParameters = defaultParameters,
+): string {
+  if (!validateGeneratorParameters(params)) {
+    throw new Error(`The parameters ${params} aren't valid`);
+  }
+
+  const suffix = generateRandomNumber(params).toString();
+  return prefix !== "" ? prefix + suffix : suffix;
+}
+
+/**
+ * Creates a random number.
+ * @param roundToInt flag to round the generated number to int
+ * @param params parameters for random number generation
+ */
+export function createNumber(
+  roundToInt: boolean = false,
+  params: GeneratorParameters = defaultParameters,
+): number {
+  if (!validateGeneratorParameters(params)) {
+    throw new Error(`The parameters ${params} aren't valid`);
+  }
+
+  const generatedNumber = generateRandomNumber(params);
+  return roundToInt ? Math.round(generatedNumber) : generatedNumber;
+}
+
+/**
+ * Creates a random boolean.
+ * @param diceWeight desired change for a false
+ */
+export function createBoolean(
+  diceWeight: number = .5,
+): boolean {
+  return Math.random() >= diceWeight;
+}
+
+/**
+ * Creates a random bigint.
+ * @param params parameters for random number generation.
+ */
+export function createBigInt(
+  params: GeneratorParameters = defaultParameters,
+): bigint {
+  return BigInt(createNumber(true, params));
 }
 
 /**
