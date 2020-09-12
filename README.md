@@ -8,7 +8,7 @@ Dixture helps you create random data for your tests, with zero external dependen
 
 **Project status**: *Under development*
 
-**Latest stable version**: *There are no public releases yet*
+**Latest stable version**: *v0.2.0*
 
 ## 🏆 Acknowledgements
 

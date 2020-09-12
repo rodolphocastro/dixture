@@ -2,8 +2,7 @@ import {
   dixtureFns,
   RuleSet,
   DixtureFactory,
-} from "../src/mod.ts";
-// TODO: Point to deno.land/x/
+} from "https://deno.land/x/dixture@v0.2.0/mod.ts";
 
 class Person {
   name: string = "";
