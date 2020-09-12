@@ -22,43 +22,52 @@ Thus I began working on this project.
 
 Simply import us by `deno.land/x/` and use your favorite flavor of test data generation!
 
-*As of v0.1.0* you can pick from two functions:
+*As of v0.2.0* you can pick from two "flavors":
 
-1. The first function looks at a field name and generates a random value for it
-2. The second function generates and assigns a random value for a specific field
+1. Functions that create and/or assign fields for your classes and instances
+2. A Factory API that allows you to write down rules for your classes
 
 ```typescript
 import {
-  assignField,
-  createFieldValue,
-} from "https://deno.land/x/dixture@v0.1.0/mod.ts";
+  dixtureFns,
+  RuleSet,
+  DixtureFactory,
+} from "https://deno.land/x/dixture@v0.2.0/mod.ts";
 
-interface Person {
-  name: string;
-  age: number;
-  isAlive: boolean;
+class Person {
+  name: string = "";
+  age: number = 0;
+  bankBalance: bigint = 1n;
+  isAlive: boolean = true;
 }
 
-const subject: Person = {
-  age: 1,
-  isAlive: false,
-  name: "A Person",
-};
-
-const result = createFieldValue<Person>(subject, "name");
-console.log(result);
-
-assignField(subject, "age", {
-  min: 1,
-  max: 100,
-});
-console.log(subject.age);
-
-assignField(subject, "isAlive");
-console.log(subject.isAlive);
+// 1. Creating our factory
+const factory = new DixtureFactory(
+  // 2. Writing in-line Rule Sets (blueprints) for our classes
+  new RuleSet(
+    Person, // 3. For each field we pick a resolution function
+    {
+      field: "name",
+      resolve: dixtureFns.String,
+    },
+    {
+      field: "age",
+      resolve: dixtureFns.Int,
+    }, // 4. We can even define our own resolution functions, as far as they return the expected type
+    {
+      field: "bankBalance",
+      resolve: () => {
+        if (dixtureFns.Bool()) {
+          return 10000000n;
+        }
+        return 0n;
+      },
+    }, // 5. We can also omit rules, the field might not be important after all
+  ),
+);
 ```
 
-You can check out all our samples at the [samples directory](./samples/)!
+You can check out all our samples at the [samples directory](./samples/)! Looking at our [unit tests](./tests/) might be helpful as well!
 
 ## 🛣 Roadmap
 
