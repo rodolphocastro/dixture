@@ -71,10 +71,11 @@ You can check out all our samples at the [samples directory](./samples/)!
 ### 🏁 v0.2.0
 
 + [X] Create and assign random values for all primitive fields of an object (*aka numbers, strings and booleans*)
-+ [ ] Create a Factory API (*aka users can ask a single Factory for an object T and they'll have it*)
++ [X] Create a Factory API (*aka users can ask a single Factory for an object T and they'll have it*)
 
 ### 💭 Someday
 
++ [ ] Allow for random generation of interfaces (*aka inputs don't need to be a class*)
 + [ ] Allow recursive generation (*aka we can handle nested objects*)
 + [ ] Allow customization of the generation strategy (*aka consumers can tweak how we generate objects*)
 + [ ] Create a Builder/Fluent API (*aka allow consumers to chain customization calls*)

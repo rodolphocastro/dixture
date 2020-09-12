@@ -1,6 +1,5 @@
-import { Rhum, assert, assertThrows } from "./deps.ts";
+import { Rhum, assert, assertThrows, fail } from "./deps.ts";
 import { create } from "../src/_autoGenerator.ts";
-import { fail } from "https://deno.land/std@0.63.0/testing/asserts.ts";
 
 interface BaseSubject {
   myString: string;
