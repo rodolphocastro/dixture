@@ -18,9 +18,11 @@ interface RuleFor<T, K extends keyof T> {
   resolve: (...args: any[]) => T[K];
 }
 
-// interface InterfaceWrapper<T> {
-//   subjectKey: (keyof T)[];
-// }
+// TODO: Keep digging for a better alternative, this might just get the job done tho
+// Source: https://stackoverflow.com/a/54308812 thanks Maciek Wawro
+type EnumerableKeys<T> = {
+  [P in keyof Required<T>]: true;
+};
 
 /**
  * Nicely wraps an interface so users won't have to bother with magic strings :)
@@ -33,8 +35,13 @@ class InterfaceWrapper<T> {
     return this.interfaceKeys.join("|");
   }
 
-  constructor(...keys: (keyof T)[]) {
-    this.interfaceKeys = keys.map((k) => k.toString());
+  protected constructor(...keys: string[]) {
+    this.interfaceKeys = keys;
+  }
+
+  static wrap<T>(keys: EnumerableKeys<T>) {
+    console.log(keys);
+    return new InterfaceWrapper<T>(...Object.keys(keys));
   }
 }
 
@@ -56,10 +63,10 @@ export class InterfaceBlueprint<T> {
   // However I'll still need the name if I wish to plug this into the Dixture factory... I'll need to get some more
   // prototypes for this before publishing a public api :/
   constructor(
-    protected readonly interfaceName: string,
+    protected readonly interfaceName: InterfaceWrapper<T>,
     ...args: RuleFor<T, keyof T>[]
   ) {
-    this.name = interfaceName;
+    this.name = interfaceName.identifier;
     this.rules = args;
   }
 
@@ -85,8 +92,11 @@ Rhum.testPlan(
         Rhum.testCase(
           "1. Should create an Interface after all rules are set",
           () => {
-            const mySubject = new InterfaceBlueprint<JustAnotherSubject>(
-              "JustAnotherSubject",
+            const mySubject = new InterfaceBlueprint(
+              InterfaceWrapper.wrap<JustAnotherSubject>({
+                goodThru: true,
+                name: true,
+              }),
               {
                 field: "goodThru",
                 resolve: () => new Date(),
@@ -113,11 +123,13 @@ Rhum.testPlan(
         Rhum.testCase(
           "1. Should extract the keys from the interface and expose them as identifiers",
           () => {
-            const subject = new InterfaceWrapper<JustAnotherSubject>(
-              "goodThru",
-              "name",
-            );
-
+            const sub = InterfaceWrapper.wrap<JustAnotherSubject>({
+              goodThru: true,
+              name: true,
+            });
+            assert(sub.identifier != null);
+            assert(sub.identifier !== "");
+            console.log(sub.identifier);
           },
         );
       },
