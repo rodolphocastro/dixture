@@ -18,33 +18,6 @@ interface RuleFor<T, K extends keyof T> {
   resolve: (...args: any[]) => T[K];
 }
 
-// TODO: Keep digging for a better alternative, this might just get the job done tho
-// Source: https://stackoverflow.com/a/54308812 thanks Maciek Wawro
-type EnumerableKeys<T> = {
-  [P in keyof Required<T>]: true;
-};
-
-/**
- * Nicely wraps an interface so users won't have to bother with magic strings :)
- */
-class InterfaceWrapper<T> {
-  protected readonly interfaceKeys: string[];
-
-  // TODO: Might be safer to do a hash here?
-  get identifier() {
-    return this.interfaceKeys.join("|");
-  }
-
-  protected constructor(...keys: string[]) {
-    this.interfaceKeys = keys;
-  }
-
-  static wrap<T>(keys: EnumerableKeys<T>) {
-    console.log(keys);
-    return new InterfaceWrapper<T>(...Object.keys(keys));
-  }
-}
-
 /**
  * Describes a blueprint for creating an interface, hopefully.
  */
@@ -63,10 +36,10 @@ export class InterfaceBlueprint<T> {
   // However I'll still need the name if I wish to plug this into the Dixture factory... I'll need to get some more
   // prototypes for this before publishing a public api :/
   constructor(
-    protected readonly interfaceName: InterfaceWrapper<T>,
+    protected readonly interfaceName: string,
     ...args: RuleFor<T, keyof T>[]
   ) {
-    this.name = interfaceName.identifier;
+    this.name = interfaceName;
     this.rules = args;
   }
 
@@ -92,11 +65,9 @@ Rhum.testPlan(
         Rhum.testCase(
           "1. Should create an Interface after all rules are set",
           () => {
-            const mySubject = new InterfaceBlueprint(
-              InterfaceWrapper.wrap<JustAnotherSubject>({
-                goodThru: true,
-                name: true,
-              }),
+            const subjectKey = "JustAnotherSubject";
+            const mySubject = new InterfaceBlueprint<JustAnotherSubject>(
+              subjectKey,
               {
                 field: "goodThru",
                 resolve: () => new Date(),
@@ -110,26 +81,6 @@ Rhum.testPlan(
             assert(result != null);
             assert(result.goodThru != null);
             assert(result.name === "Just Another Brick in the Wall");
-            console.log(result.name);
-            console.log(result.goodThru);
-          },
-        );
-      },
-    );
-
-    Rhum.testSuite(
-      "2. Interface Wrappers",
-      () => {
-        Rhum.testCase(
-          "1. Should extract the keys from the interface and expose them as identifiers",
-          () => {
-            const sub = InterfaceWrapper.wrap<JustAnotherSubject>({
-              goodThru: true,
-              name: true,
-            });
-            assert(sub.identifier != null);
-            assert(sub.identifier !== "");
-            console.log(sub.identifier);
           },
         );
       },
