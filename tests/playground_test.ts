@@ -48,8 +48,7 @@ export class InterfaceBlueprint<T> {
    */
   build(): T {
     const result = {} as T;
-    this.rules.forEach((r) => {
-      const { field, resolve } = r;
+    this.rules.forEach(({ field, resolve }) => {
       result[field] = resolve();
     });
     return result;
