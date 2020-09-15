@@ -1,5 +1,15 @@
 import { Rhum, assert, fail } from "./deps.ts";
-import { DixtureFactory, RuleSet, dixtureFns } from "../src/_factory.ts";
+import {
+  DixtureFactory,
+  RuleSet,
+  dixtureFns,
+  InterfaceRuleSet,
+} from "../src/_factory.ts";
+
+interface JustAnotherSubject {
+  name: string;
+  goodThru: Date;
+}
 
 /**
  * Say my name... I guess?
@@ -166,6 +176,91 @@ Rhum.testPlan("Factories", () => {
         const result = factory.build(MyOtherSubject);
         assert(result instanceof MyOtherSubject);
         assert(bigIntNum !== result.bigIntNum);
+      },
+    );
+
+    Rhum.testCase(
+      "6. Should build interfaces using their rulesets",
+      () => {
+        const interfaceKey = "just-another-object-in-the-wall";
+        const factory = new DixtureFactory(
+          new InterfaceRuleSet<JustAnotherSubject>(interfaceKey, {
+            field: "goodThru",
+            resolve: () => new Date(),
+          }, {
+            field: "name",
+            resolve: dixtureFns.String,
+          }),
+        );
+
+        const result = factory.build<JustAnotherSubject>(interfaceKey);
+        assert(result != null);
+        assert(result.goodThru != null);
+        assert(result.name != null);
+      },
+    );
+  });
+
+  Rhum.testSuite("3. InterfaceRuleSet<T>", () => {
+    const justAnotherSubjectKey = "jasubject";
+    Rhum.testCase(
+      "1. Should be constructable without rules",
+      () => {
+        try {
+          new InterfaceRuleSet<JustAnotherSubject>(justAnotherSubjectKey);
+        } catch (error) {
+          fail(`Creation failed with error ${error}`);
+        }
+      },
+    );
+
+    Rhum.testCase(
+      "2. Should allow rules with builtin resolves",
+      () => {
+        const subject = new InterfaceRuleSet<JustAnotherSubject>(
+          justAnotherSubjectKey,
+          {
+            field: "name",
+            resolve: dixtureFns.String,
+          },
+        );
+        const result = subject.build();
+        assert(result.name != null);
+      },
+    );
+
+    Rhum.testCase(
+      "3. Should allow rules with custom resolves",
+      () => {
+        const subject = new InterfaceRuleSet<JustAnotherSubject>(
+          justAnotherSubjectKey,
+          {
+            field: "name",
+            resolve: () => "Walter White",
+          },
+        );
+        const result = subject.build();
+        assert(result.name != null, "We are goddamn wrong... I guess");
+      },
+    );
+
+    Rhum.testCase(
+      "4. Should allow rules with mixed resolves",
+      () => {
+        const subject = new InterfaceRuleSet<JustAnotherSubject>(
+          justAnotherSubjectKey,
+          {
+            field: "name",
+            resolve: () => "Walter White",
+          },
+          {
+            field: "goodThru",
+            resolve: () => new Date(dixtureFns.Int()),
+          },
+        );
+        const result = subject.build();
+        assert(result.goodThru != null);
+        assert(result.name != null);
       },
     );
   });

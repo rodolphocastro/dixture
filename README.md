@@ -84,7 +84,7 @@ You can check out all our samples at the [samples directory](./samples/)! Lookin
 
 ### 💭 Someday
 
-+ [ ] Allow for random generation of interfaces (*aka inputs don't need to be a class*)
++ [X] Allow for random generation of interfaces (*aka inputs don't need to be a class*)
 + [ ] Allow recursive generation (*aka we can handle nested objects*)
 + [ ] Allow customization of the generation strategy (*aka consumers can tweak how we generate objects*)
 + [ ] Create a Builder/Fluent API (*aka allow consumers to chain customization calls*)
