@@ -3,7 +3,7 @@ import {
   RuleSet,
   DixtureFactory,
   InterfaceRuleSet,
-} from "../src/mod.ts";
+} from "https://deno.land/x/dixture@v0.2.1/mod.ts";
 
 class Person {
   name: string = "";
