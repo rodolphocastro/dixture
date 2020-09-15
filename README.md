@@ -8,7 +8,7 @@ Dixture helps you create random data for your tests, with zero external dependen
 
 **Project status**: *Under development*
 
-**Latest stable version**: *v0.2.0*
+**Latest stable version**: *v0.2.1*
 
 ## 🏆 Acknowledgements
 
@@ -32,13 +32,19 @@ import {
   dixtureFns,
   RuleSet,
   DixtureFactory,
-} from "https://deno.land/x/dixture@v0.2.0/mod.ts";
+  InterfaceRuleSet,
+} from "https://deno.land/x/dixture@v0.2.1/mod.ts";
 
 class Person {
   name: string = "";
   age: number = 0;
   bankBalance: bigint = 1n;
   isAlive: boolean = true;
+}
+
+interface DateRange {
+  startsAt: Date;
+  endsAt: Date;
 }
 
 // 1. Creating our factory
@@ -62,9 +68,49 @@ const factory = new DixtureFactory(
         }
         return 0n;
       },
-    }, // 5. We can also omit rules, the field might not be important after all
+    }, // 5. We can also omit rules, the field might not be important after all,
+  ),
+  // 6. We also handle interfaces!
+  new InterfaceRuleSet<DateRange>(
+    "DateRange", // 7. Set a key so we can resolve your interface later down the road
+    // 8. And describe its rules
+    {
+      field: "startsAt",
+      resolve: () => new Date(),
+    },
+    {
+      field: "endsAt",
+      resolve: () => (new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)),
+    },
   ),
 );
+
+// 9. After everything is done just call build(YourClass)
+const { age, bankBalance, name } = factory.build(Person);
+console.table([age, bankBalance, name]);
+
+// 10. Or build<YourInterface>(yourInterfaceKey);
+const { startsAt, endsAt } = factory.build<DateRange>("DateRange");
+console.table([startsAt.toLocaleDateString(), endsAt.toLocaleDateString()]);
+
+// 11. Enjoy setting your rules only once!
+/**
+  * ┌───────┬─────────────────────┐
+  * │ (idx) │       Values        │
+  * ├───────┼─────────────────────┤
+  * │   0   │         487         │
+  * │   1   │      10000000n      │
+  * │   2   │ "745.5967546042531" │
+  * └───────┴─────────────────────┘
+ */
+/**
+ * ┌───────┬───────────────────┐
+ * │ (idx) │      Values       │
+ * ├───────┼───────────────────┤
+ * │   0   │ "Mon Sep 14 2020" │
+ * │   1   │ "Thu Sep 17 2020" │
+ * └───────┴───────────────────┘
+ */
 ```
 
 You can check out all our samples at the [samples directory](./samples/)! Looking at our [unit tests](./tests/) might be helpful as well!
@@ -86,11 +132,14 @@ You can check out all our samples at the [samples directory](./samples/)! Lookin
 
 + [X] Allow for random generation of interfaces (*aka inputs don't need to be a class*)
 
+### 🌊 v0.3.0
+
++ [ ] Create a Builder/Fluent API for RuleSets (*aka allow consumers to chain customization calls*)
+
 ### 💭 Someday
 
 + [ ] Allow recursive generation (*aka we can handle nested objects*)
 + [ ] Allow customization of the generation strategy (*aka consumers can tweak how we generate objects*)
-+ [ ] Create a Builder/Fluent API (*aka allow consumers to chain customization calls*)
 
 ## ➕ Contributing to this Project
 

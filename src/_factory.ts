@@ -30,6 +30,11 @@ export interface GenerationFunctions {
   String: (...params: any[]) => string;
 
   /**
+   * Creates a prefixed string.
+   */
+  NamedString: <T>(prefix: keyof T) => string;
+
+  /**
    * Creates a number rounded to a whole point.
    */
   Int: (...params: any[]) => number;
@@ -43,6 +48,7 @@ export const dixtureFns: GenerationFunctions = {
   Bool: createBoolean,
   Number: createNumber,
   String: createString,
+  NamedString: <T>(prefix: keyof T) => createString(prefix.toString()),
   Int: () => createNumber(true),
 };
 

@@ -264,6 +264,24 @@ Rhum.testPlan("Factories", () => {
       },
     );
   });
+
+  Rhum.testSuite("4. DixtureFns", () => {
+    Rhum.testCase(
+      "1. Should create a named string when given a field",
+      () => {
+        const result = dixtureFns.NamedString<MySubject>("name");
+        assert(result.includes("name"));
+      },
+    );
+
+    Rhum.testCase(
+      "2. Should create a random string without a field",
+      () => {
+        const result = dixtureFns.String();
+        assert(!result.includes("name"));
+      },
+    );
+  });
 });
 
 Rhum.run();
