@@ -6,7 +6,11 @@ import {
   assertThrows,
   fail,
 } from "./deps.ts";
-import { assignField, createFieldValue } from "../src/_simpleGenerator.ts";
+import {
+  assignField,
+  createFieldValue,
+  createDate,
+} from "../src/_simpleGenerator.ts";
 
 interface Subject {
   aNumericField: number;
@@ -14,6 +18,7 @@ interface Subject {
   aBooleanField: boolean;
   aBigIntField: bigint;
   anUndefinedNumber?: number;
+  aDateField: Date;
 }
 
 Rhum.testPlan("Simple Generator", () => {
@@ -25,6 +30,7 @@ Rhum.testPlan("Simple Generator", () => {
       aNumericField: 42,
       aStringField: "my string",
       aBigIntField: 100n,
+      aDateField: new Date(),
     };
   });
 
@@ -212,6 +218,42 @@ Rhum.testPlan("Simple Generator", () => {
             max: 20,
           })
         );
+      },
+    );
+  });
+
+  Rhum.testSuite("createDate", () => {
+    let refDate: Date;
+
+    Rhum.beforeEach(() => {
+      refDate = new Date();
+    });
+
+    Rhum.testCase(
+      "1. Should create a Date in the future when no parameters are set",
+      () => {
+        const result = createDate();
+        assert(result != null);
+        assert(result > refDate);
+      },
+    );
+
+    Rhum.testCase(
+      "2. Should create a Date in the past when parameters are set",
+      () => {
+        const result = createDate(false);
+        assert(result != null);
+        assert(result < refDate);
+      },
+    );
+
+    Rhum.testCase(
+      "3. Should create a Date within a random range when parameters are set",
+      () => {
+        const result = createDate(true, { max: 365 * 3, min: 365 });
+        assert(result != null);
+        assert(result > refDate);
+        assert(result.getFullYear() > refDate.getFullYear());
       },
     );
   });
