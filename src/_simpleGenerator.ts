@@ -90,6 +90,28 @@ export function createBigInt(
   return BigInt(createNumber(true, params));
 }
 
+function createDateWithOffset(daysOffset: number = 0): Date {
+  let result: Date = new Date();
+  result.setDate(result.getDate() + daysOffset);
+  return result;
+}
+
+/**
+ * Creates a random date.
+ * @param isFuture should the date be in the future or in the past
+ * @param params parameters for random number generation
+ */
+export function createDate(
+  isFuture: boolean = true,
+  params: GeneratorParameters = defaultParameters,
+): Date {
+  const modifyBy = createNumber(
+    true,
+    params,
+  );
+  return createDateWithOffset(isFuture ? modifyBy : -1 * modifyBy);
+}
+
 /**
  * Creates and assign a value for a string, boolean, number or bigint field.
  * @param subject object that owns the field

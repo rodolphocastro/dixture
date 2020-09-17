@@ -3,6 +3,7 @@ import {
   createBoolean,
   createNumber,
   createString,
+  createDate,
 } from "./_simpleGenerator.ts";
 
 /**
@@ -38,6 +39,16 @@ export interface GenerationFunctions {
    * Creates a number rounded to a whole point.
    */
   Int: (...params: any[]) => number;
+
+  /**
+   * Creates a random date in the future.
+   */
+  FutureDate: (...params: any[]) => Date;
+
+  /**
+   * Creates a random date in the past.
+   */
+  PastDate: (...params: any[]) => Date;
 }
 
 /**
@@ -50,6 +61,8 @@ export const dixtureFns: GenerationFunctions = {
   String: createString,
   NamedString: <T>(prefix: keyof T) => createString(prefix.toString()),
   Int: () => createNumber(true),
+  FutureDate: () => createDate(),
+  PastDate: () => createDate(false),
 };
 
 /**

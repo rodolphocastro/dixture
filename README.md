@@ -22,7 +22,7 @@ Thus I began working on this project.
 
 Simply import us by `deno.land/x/` and use your favorite flavor of test data generation!
 
-*As of v0.2.0* you can pick from two "flavors":
+*As of v0.2.1* you can pick from two "flavors":
 
 1. Functions that create and/or assign fields for your classes and instances
 2. A Factory API that allows you to write down rules for your classes
@@ -80,7 +80,7 @@ const factory = new DixtureFactory(
     },
     {
       field: "endsAt",
-      resolve: () => (new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)),
+      resolve: dixtureFns.FutureDate,
     },
   ),
 );
@@ -131,6 +131,10 @@ You can check out all our samples at the [samples directory](./samples/)! Lookin
 ### 🍾 v0.2.1
 
 + [X] Allow for random generation of interfaces (*aka inputs don't need to be a class*)
+
+### 🍔 v0.2.2
+
++ [X] Allow for random generation of dates (*aka we can generate future and past dates for consumers*)
 
 ### 🌊 v0.3.0
 
