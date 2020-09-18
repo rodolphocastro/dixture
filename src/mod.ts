@@ -5,6 +5,7 @@ export {
   createBoolean,
   createNumber,
   createString,
+  createDate,
 } from "./_simpleGenerator.ts";
 export { create } from "./_autoGenerator.ts";
 export {
