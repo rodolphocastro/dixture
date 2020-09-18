@@ -135,6 +135,8 @@ You can check out all our samples at the [samples directory](./samples/)! Lookin
 ### 🍔 v0.2.2
 
 + [X] Allow for random generation of dates (*aka we can generate future and past dates for consumers*)
++ [X] Allow recursive generation (*aka we can handle nested objects*)
++ [X] Allow customization of the generation strategy (*aka consumers can tweak how we generate objects*)
 
 ### 🌊 v0.3.0
 
@@ -142,8 +144,7 @@ You can check out all our samples at the [samples directory](./samples/)! Lookin
 
 ### 💭 Someday
 
-+ [ ] Allow recursive generation (*aka we can handle nested objects*)
-+ [ ] Allow customization of the generation strategy (*aka consumers can tweak how we generate objects*)
++ [ ] Do not required consts to identify Interface (*aka consumers do not need to keep track of their interface keys*)
 
 ## ➕ Contributing to this Project
 
