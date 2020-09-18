@@ -34,7 +34,7 @@ Rhum.testPlan("Simple Generator", () => {
     };
   });
 
-  Rhum.testSuite("createField", () => {
+  Rhum.testSuite("1. createField", () => {
     Rhum.testCase(
       "1. Should return a string when given a string field",
       () => {
@@ -108,7 +108,7 @@ Rhum.testPlan("Simple Generator", () => {
     );
   });
 
-  Rhum.testSuite("assignField", () => {
+  Rhum.testSuite("2. assignField", () => {
     Rhum.testCase("1. Should replace a string with a new value", () => {
       const { aStringField } = subject;
       assignField(subject, "aStringField");
@@ -168,7 +168,7 @@ Rhum.testPlan("Simple Generator", () => {
     );
   });
 
-  Rhum.testSuite("validateParameters", () => {
+  Rhum.testSuite("3. validateParameters", () => {
     Rhum.testCase(
       "1. Should execute createField when parameters are valid",
       () => {
@@ -222,7 +222,7 @@ Rhum.testPlan("Simple Generator", () => {
     );
   });
 
-  Rhum.testSuite("createDate", () => {
+  Rhum.testSuite("4. createDate", () => {
     let refDate: Date;
 
     Rhum.beforeEach(() => {
