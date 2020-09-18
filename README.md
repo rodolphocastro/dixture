@@ -196,11 +196,43 @@ You can check out all our samples at the [samples directory](./samples/)! Lookin
 
 ## ➕ Contributing to this Project
 
-Simply follow the standards and ensure all the tests are ✅, then create a pull request! 😄
+Simply follow our goals, respect the `.editorconfig` set in the repository and ensure all the tests are ✅, then create a pull request! 😄
 
-### 📚 Code Standards
+If you think a refactor is important for performance or for making the code clearer please go ahead and do it!
 
-> W.I.P.
+If you found a bug please [write up a new issue](https://github.com/rodolphocastro/dixture/issues/new/choose) and let us know. Remember to add a snippet whenever possible as we could use that to build a test case and ensure our bug never happens again.
+
+### 📚 Dixture Goals
+
+Those are Dixture core goals:
+
+#### No invasive APIs
+
+Our APIs should **never** be invasive to consumers. What we mean by that is that **we should never**, ever, **expect someone to change the way their classes/interfaces/logics work just to use our module**!
+
+This does impose some limitations such as never using `@attributes` that would pollute models/dtos/whatever but it **ensures people can adopt and leave** Dixture easily!
+
+#### No hardcoded singletons
+
+We should **never expose a hardcoded singleton**. We should **trust that our consumers know best how to setup their tests** and environments.
+
+#### Minimum Dependencies
+
+**External dependencies** might be necessary as Dixture grows but they **should be kept to a minimum**. This doesn't mean we'll always refuse those but they should only be brought in when absolutely necessary. Remember: our goal is to stay as light as possible and as non-invasive as we can!
+
+Do you think you can further enhance Dixture with the help of an external module? Feel free to fork us and create a new module that leverages Dixture + whichever other modules you need!
+
+> For instance I can see this happening in order to inject Dixture into a `Dependency Injection` module automatically for our consumers.
+
+Note: This doesn't apply to `std` modules as those are official modules.
+
+#### No external calls!
+
+**Under no scenario Dixture should call upon external systems**, by no protocol (HTTP, gRPC, whatever).
+
+**Our consumers trust us to setup their test data and we should never break that trust**. Even tho calling a mock/placeholder/faker API might be tempting to get better data we should allow this choice to be done by consumers themselves.
+
+> Again, as with dependencies, if you think this is really helpful for a consumer feel free to fork us and create a new module that bundles Dixture + the external calls you might need!
 
 ### 🔨 Building
 
