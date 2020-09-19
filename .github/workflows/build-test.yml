@@ -2,7 +2,7 @@ name: Build and Test
 
 on:
   push:
-    branches: 
+    branches:
       - "**"
   pull_request:
     branches: [master]
@@ -31,3 +31,7 @@ jobs:
 
       - name: Run Tests
         run: deno test tests/ -A
+
+        # Toggling this to check for impact
+      - name: Run Lint
+        run: deno lint --unstable

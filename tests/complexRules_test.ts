@@ -14,7 +14,7 @@ interface DateRange {
 const refDate = new Date();
 
 class FilterUsersCommand {
-  username: string = "";
+  username = "";
   range: DateRange = {
     beginsOn: refDate,
     endsOn: refDate,
