@@ -6,10 +6,10 @@ import {
 } from "https://deno.land/x/dixture@v0.2.2/mod.ts";
 
 class Person {
-  name: string = "";
-  age: number = 0;
-  bankBalance: bigint = 1n;
-  isAlive: boolean = true;
+  name = "";
+  age = 0;
+  bankBalance = 1n;
+  isAlive = true;
 }
 
 interface DateRange {

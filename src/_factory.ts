@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 import {
   createBigInt,
   createBoolean,

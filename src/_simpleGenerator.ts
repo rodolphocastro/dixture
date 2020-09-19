@@ -42,8 +42,8 @@ export function createFieldValue<T>(
  * @param params parameters for random number generation
  */
 export function createString(
-  prefix: string = "",
-  params: GeneratorParameters = defaultParameters,
+  prefix = "",
+  params = defaultParameters,
 ): string {
   if (!validateGeneratorParameters(params)) {
     throw new Error(`The parameters ${params} aren't valid`);
@@ -59,8 +59,8 @@ export function createString(
  * @param params parameters for random number generation
  */
 export function createNumber(
-  roundToInt: boolean = false,
-  params: GeneratorParameters = defaultParameters,
+  roundToInt = false,
+  params = defaultParameters,
 ): number {
   if (!validateGeneratorParameters(params)) {
     throw new Error(`The parameters ${params} aren't valid`);
@@ -75,7 +75,7 @@ export function createNumber(
  * @param diceWeight desired change for a false
  */
 export function createBoolean(
-  diceWeight: number = .5,
+  diceWeight = .5,
 ): boolean {
   return Math.random() >= diceWeight;
 }
@@ -85,12 +85,12 @@ export function createBoolean(
  * @param params parameters for random number generation.
  */
 export function createBigInt(
-  params: GeneratorParameters = defaultParameters,
+  params = defaultParameters,
 ): bigint {
   return BigInt(createNumber(true, params));
 }
 
-function createDateWithOffset(daysOffset: number = 0): Date {
+function createDateWithOffset(daysOffset = 0): Date {
   let result: Date = new Date();
   result.setDate(result.getDate() + daysOffset);
   return result;
@@ -102,8 +102,8 @@ function createDateWithOffset(daysOffset: number = 0): Date {
  * @param params parameters for random number generation
  */
 export function createDate(
-  isFuture: boolean = true,
-  params: GeneratorParameters = defaultParameters,
+  isFuture = true,
+  params = defaultParameters,
 ): Date {
   const modifyBy = createNumber(
     true,
@@ -121,8 +121,8 @@ export function createDate(
 export function assignField<T>(
   subject: T,
   field: keyof T,
-  params: GeneratorParameters = defaultParameters,
+  params = defaultParameters,
 ) {
   const fieldValue = createFieldValue(subject, field, params);
-  (subject[field] as any) = fieldValue;
+  (subject[field] as unknown) = fieldValue;
 }

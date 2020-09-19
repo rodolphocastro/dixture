@@ -30,6 +30,8 @@ export function create<T>(
     try {
       assignField(result, f as keyof T, params);
     } catch {
+      // Continue regardless of the error.
+      // It's probably an unsupported primitive.
     }
   });
   return result;
